@@ -27,9 +27,9 @@ namespace Misc {
     constexpr void watermark() noexcept
     {
         if (config.misc.watermark) {
-            interfaces.surface->setTextColor(51, 153, 255, 255);
-            interfaces.surface->setTextPosition(0, 0);
-            interfaces.surface->printText(L"Osiris");
+            interfaces.surface->setTextColor(255, 0, 0, 255);
+            interfaces.surface->setTextPosition(2, 2);
+            interfaces.surface->printText(L"Nightmare");
         }
     }
 }

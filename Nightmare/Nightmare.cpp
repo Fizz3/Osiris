@@ -5,7 +5,7 @@
 #include "Memory.h"
 #include "Netvars.h"
 
-Config config{ "Osiris" };
+Config config{ "Nightmare" };
 GUI gui;
 Interfaces interfaces;
 Memory memory;
