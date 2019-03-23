@@ -110,7 +110,7 @@ static HRESULT __stdcall hookedPresent(IDirect3DDevice9* device, const RECT* src
             SetWindowLongPtr(FindWindowA("Valve001", NULL), GWLP_WNDPROC, LONG_PTR(hookedWndProc))
             );
 
-        interfaces.gameUI->messageBox("This was a triumph!", "Osiris has been successfully loaded.");
+        interfaces.gameUI->messageBox("Injected", "Nightmare has been successfully loaded.");
         isInitialised = true;
     }
     else if (gui.isOpen) {
