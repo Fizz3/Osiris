@@ -257,5 +257,8 @@
     <ClInclude Include="SDK\Surface.h">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="imgui\imgui_markdown.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

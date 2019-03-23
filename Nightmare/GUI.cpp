@@ -1,6 +1,7 @@
-#include <Windows.h>
+﻿#include <Windows.h>
 
 #include "imgui/imgui.h"
+#include "imgui/imgui_markdown.h"
 #include "GUI.h"
 #include "Config.h"
 #include "Hacks/Misc.h"
@@ -20,6 +21,7 @@ void GUI::render() noexcept
     renderKnifeChangerWindow();
     renderMiscWindow();
     renderConfigWindow();
+    renderCreditsWindow();
 }
 
 void GUI::hotkey(int& key) noexcept
@@ -39,17 +41,72 @@ void GUI::hotkey(int& key) noexcept
 
 void GUI::renderMenuBar() noexcept
 {
-    if (ImGui::BeginMainMenuBar()) {
-        ImGui::MenuItem("Aimbot", nullptr, &window.aimbot);
-        ImGui::MenuItem("Triggerbot", nullptr, &window.triggerbot);
-        ImGui::MenuItem("Glow", nullptr, &window.glow);
-        ImGui::MenuItem("Chams", nullptr, &window.chams);
-        ImGui::MenuItem("Visuals", nullptr, &window.visuals);
-        ImGui::MenuItem("Knife changer", nullptr, &window.knifeChanger);
-        ImGui::MenuItem("Misc", nullptr, &window.misc);
-        ImGui::MenuItem("Config", nullptr, &window.config);
-        ImGui::EndMainMenuBar();
+    std::vector<std::string> windows{ "Aimbot", "Triggerbot", "Glow", "Chams", "Visuals", "Knife Changer", "Misc", "Config", "Credits" };
+
+    ImGuiContext& g = *GImGui;
+    ImGuiStyle& style = g.Style;
+
+    ImGui::SetNextWindowSize(ImVec2(g.IO.DisplaySize.x - 40, (40 + (style.WindowPadding.y * 2))));
+    ImGui::SetNextWindowPos(ImVec2(20, 20));
+    ImGui::Begin("Nightmare", (bool*)true, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+
+    for (int i = 0; i < windows.size(); i++) {
+        if ((window.aimbot && i == 0) ||
+            (window.triggerbot && i == 1) ||
+            (window.glow && i == 2) ||
+            (window.chams && i == 3) ||
+            (window.visuals && i == 4) ||
+            (window.knifeChanger && i == 5) ||
+            (window.misc && i == 6) ||
+            (window.config && i == 7) ||
+            (window.credits && i == 8))
+        {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+        }
+        else {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_Button]);
+        }
+
+        if (ImGui::Button(windows[i].c_str(), ImVec2(120, 40))) {
+            switch (i)
+            {
+                case 0:
+                    window.aimbot = !window.aimbot;
+                    break;
+                case 1:
+                    window.triggerbot = !window.triggerbot;
+                    break;
+                case 2:
+                    window.glow = !window.glow;
+                    break;
+                case 3:
+                    window.chams = !window.chams;
+                    break;
+                case 4:
+                    window.visuals = !window.visuals;
+                    break;
+                case 5:
+                    window.knifeChanger = !window.knifeChanger;
+                    break;
+                case 6:
+                    window.misc = !window.misc;
+                    break;
+                case 7:
+                    window.config = !window.config;
+                    break;
+                case 8:
+                    window.credits = !window.credits;
+                    break;
+            }
+        }
+        ImGui::PopStyleColor();
+        
+        if (i < windows.size() - 2)
+            ImGui::SameLine();
+        else
+            ImGui::SameLine(ImGui::GetWindowWidth() - (120 + style.WindowPadding.x));
     }
+
 }
 
 void GUI::renderAimbotWindow() noexcept
@@ -377,6 +434,42 @@ void GUI::renderConfigWindow() noexcept
         }
 
         ImGui::PopItemWidth();
+        ImGui::End();
+    }
+}
+
+void GUI::renderCreditsWindow() noexcept
+{
+    if (window.credits) {
+        ImGui::SetNextWindowSize({ 260.0f, 350.0f });
+        ImGui::Begin("Credits", &window.credits, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse);
+
+        const std::string markdown = u8R"(# Credits
+## [@Fizz3](https://github.com/Fizz3)
+I put together this cheat for my own personal use and as a way to learn C++. Barely any of it is coded from scratch, almost all of the credit goes to the following people.
+
+## [@danielkrupinski](https://github.com/danielkrupinski)
+Created the project that Nightmare is forked from. I wouldn't have made this is I didn't stumble across his source which reminded my of when AimTux first game out.
+
+## [@luk1337](https://github.com/luk1337), [@McSwaggens](https://github.com/McSwaggens) and [Contributors](https://github.com/AimTuxOfficial/AimTux/graphs/contributors)
+Creators of the AimTux Linux cheat, which I often use as a reference when looking for features I want.
+
+## [unknowncheats.me](https://unknowncheats.me) Community
+Lots of useful resources and helpful people, I would have a lot less features without some of the stuff I've found here.
+)";
+        ImGui::MarkdownConfig mdConfig{ NULL, NULL, NULL, { { NULL, true }, { NULL, true }, { NULL, false } } };
+        ImGui::Markdown(markdown.c_str(), markdown.length(), mdConfig);
+        /*ImGui::Text("@Fizz3");
+        ImGui::Text("Nightmare fork");
+        ImGui::Separator();
+
+        ImGui::Text("@danielkrupinski");
+        ImGui::Text("The source that Nightmare is forked\nfrom (Osiris)");
+        ImGui::Separator();
+
+        ImGui::Text("unknowncheats.me Community");
+        ImGui::Text("Lots of helpful people :)");*/
+
         ImGui::End();
     }
 }

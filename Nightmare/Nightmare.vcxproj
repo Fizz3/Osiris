@@ -58,6 +58,7 @@
     <ClInclude Include="Hacks\Misc.h" />
     <ClInclude Include="Hacks\Triggerbot.h" />
     <ClInclude Include="Hacks\Visuals.h" />
+    <ClInclude Include="imgui\imgui_markdown.h" />
     <ClInclude Include="Netvars.h" />
     <ClInclude Include="SDK\Client.h" />
     <ClInclude Include="SDK\EngineTrace.h" />

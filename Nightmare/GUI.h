@@ -20,6 +20,7 @@ private:
     void renderKnifeChangerWindow() noexcept;
     void renderMiscWindow() noexcept;
     void renderConfigWindow() noexcept;
+    void renderCreditsWindow() noexcept;
     struct {
         bool aimbot{ false };
         bool triggerbot{ false };
@@ -29,6 +30,7 @@ private:
         bool knifeChanger{ false };
         bool misc{ false };
         bool config{ false };
+        bool credits{ false };
     } window;
 
     std::string GetNewConfigName(std::string name = "New Config", int i = 0) noexcept;
