@@ -18,7 +18,7 @@ void Misc::bunnyHop(UserCmd* cmd) noexcept
 void Misc::inverseRagdollGravity() noexcept
 {
     static auto ragdollGravity = interfaces.cvar->findVar("cl_ragdoll_gravity");
-    ragdollGravity->setValue(config.visuals.inverseRagdollGravity ? -600 : 600);
+    ragdollGravity->setValue(config.visuals.misc.inverseRagdollGravity ? -600 : 600);
 }
 
 void Misc::autoPistol(UserCmd* cmd) noexcept

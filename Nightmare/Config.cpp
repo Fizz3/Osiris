@@ -64,7 +64,7 @@ void Config::load(std::string item) noexcept
 
     cereal::BinaryInputArchive inputArchive{ in };
     try {
-        inputArchive(aimbot, triggerbot, glow, chams, visuals, knifeChanger, misc);
+        inputArchive(aimbot, triggerbot, visuals, knifeChanger, misc);
     }
     catch (cereal::Exception&) { }
     in.close();
@@ -84,7 +84,7 @@ void Config::save(std::string item) const noexcept
 
     cereal::BinaryOutputArchive outputArchive{ out };
     try {
-        outputArchive(aimbot, triggerbot, glow, chams, visuals, knifeChanger, misc);
+        outputArchive(aimbot, triggerbot, visuals, knifeChanger, misc);
     }
     catch (cereal::Exception&) { }
     out.close();
@@ -119,8 +119,6 @@ void Config::reset() noexcept
 {
     aimbot = { };
     triggerbot = { };
-    glow = { };
-    chams = { };
     visuals = { };
     knifeChanger = { };
     misc = { };

@@ -59,86 +59,98 @@ public:
 
     struct {
         struct {
-            bool enabled{ false };
-            float thickness{ 1.0f };
-            float alpha{ 1.0f };
-            int style{ 0 };
-            float color[3]{ 1.0f, 1.0f, 1.0f };
 
-            template <class Archive>
-            constexpr void serialize(Archive& archive) noexcept
-            {
-                archive(enabled, thickness, alpha, style, color);
-            }
-        } glow[13];
+        } main;
 
-        constexpr auto& operator[](size_t index) noexcept
-        {
-            return glow[index];
-        }
-
-        template <class Archive>
-        constexpr void serialize(Archive& archive) noexcept
-        {
-            archive(glow);
-        }
-    } glow;
-
-    struct {
         struct {
-            bool enabled{ false };
-            bool flat{ false };
-            bool wireframe{ false };
-            float color[3]{ 1.0f, 1.0f, 1.0f };
-            float alpha{ 1.0f };
+            struct {
+                bool enabled{ false };
+                float thickness{ 1.0f };
+                float alpha{ 1.0f };
+                int style{ 0 };
+                float color[3]{ 1.0f, 1.0f, 1.0f };
+
+                template <class Archive>
+                constexpr void serialize(Archive& archive) noexcept
+                {
+                    archive(enabled, thickness, alpha, style, color);
+                }
+            } glow[13];
+
+            constexpr auto& operator[](size_t index) noexcept
+            {
+                return glow[index];
+            }
 
             template <class Archive>
             constexpr void serialize(Archive& archive) noexcept
             {
-                archive(enabled, flat, wireframe, color, alpha);
+                archive(glow);
             }
-        } chams[11];
+        } glow;
 
-        constexpr auto& operator[](size_t index) noexcept
-        {
-            return chams[index];
-        }
+        struct {
+            struct {
+                bool enabled{ false };
+                bool flat{ false };
+                bool wireframe{ false };
+                float color[3]{ 1.0f, 1.0f, 1.0f };
+                float alpha{ 1.0f };
+
+                template <class Archive>
+                constexpr void serialize(Archive& archive) noexcept
+                {
+                    archive(enabled, flat, wireframe, color, alpha);
+                }
+            } chams[11];
+
+            constexpr auto& operator[](size_t index) noexcept
+            {
+                return chams[index];
+            }
+
+            template <class Archive>
+            constexpr void serialize(Archive& archive) noexcept
+            {
+                archive(chams);
+            }
+        } chams;
+
+        struct {
+            bool disablePostProcessing{ false };
+            bool inverseRagdollGravity{ false };
+            bool noVisualRecoil{ false };
+            bool noHands{ false };
+            bool noSleeves{ false };
+            bool noWeapons{ false };
+            bool noSmoke{ false };
+            bool noBlur{ false };
+            bool noScopeOverlay{ false };
+            bool noGrass{ false };
+            bool wireframeSmoke{ false };
+            bool thirdperson{ false };
+            int thirdpersonKey{ 0 };
+            int thirdpersonDistance{ 0 };
+            int viewmodelFov{ 0 };
+            int flashReduction{ 0 };
+            float brightness{ 0.0f };
+            int skybox{ 0 };
+            float worldColor[3]{ 0.0f, 0.0f, 0.0f };
+
+            template <class Archive>
+            constexpr void serialize(Archive& archive) noexcept
+            {
+                archive(disablePostProcessing, inverseRagdollGravity, noVisualRecoil, noHands,
+                    noSleeves, noWeapons, noSmoke, noBlur, noScopeOverlay, noGrass, wireframeSmoke, thirdperson,
+                    thirdpersonKey, thirdpersonDistance, viewmodelFov, flashReduction, brightness, skybox,
+                    worldColor);
+            }
+        } misc;
 
         template <class Archive>
         constexpr void serialize(Archive& archive) noexcept
         {
-            archive(chams);
-        }
-    } chams;
-
-    struct {
-        bool disablePostProcessing{ false };
-        bool inverseRagdollGravity{ false };
-        bool noVisualRecoil{ false };
-        bool noHands{ false };
-        bool noSleeves{ false };
-        bool noWeapons{ false };
-        bool noSmoke{ false };
-        bool noBlur{ false };
-        bool noScopeOverlay{ false };
-        bool noGrass{ false };
-        bool wireframeSmoke{ false };
-        bool thirdperson{ false };
-        int thirdpersonKey{ 0 };
-        int thirdpersonDistance{ 0 };
-        int viewmodelFov{ 0 };
-        int flashReduction{ 0 };
-        float brightness{ 0.0f };
-        int skybox{ 0 };
-        float worldColor[3]{ 0.0f, 0.0f, 0.0f };
-
-        template <class Archive>
-        constexpr void serialize(Archive& archive) noexcept
-        {
-            archive(disablePostProcessing, inverseRagdollGravity, noVisualRecoil, noHands,
-                noSleeves, noWeapons, noSmoke, noBlur, noScopeOverlay, noGrass, wireframeSmoke, thirdperson,
-                thirdpersonKey, thirdpersonDistance, viewmodelFov, flashReduction, brightness, skybox,
-                worldColor);
+            archive(main, glow, chams, misc);
         }
     } visuals;
 

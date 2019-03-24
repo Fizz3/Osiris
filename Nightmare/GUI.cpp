@@ -259,8 +259,8 @@ void GUI::renderVisualsGlowTab() noexcept
         currentItem = currentCategory + 4;
     }
 
-    ImGui::Checkbox("Enabled", &config.glow[currentItem].enabled);
-    bool openPopup = ImGui::ColorButton("Color", ImColor{ config.glow[currentItem].color[0], config.glow[currentItem].color[1], config.glow[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
+    ImGui::Checkbox("Enabled", &config.visuals.glow[currentItem].enabled);
+    bool openPopup = ImGui::ColorButton("Color", ImColor{ config.visuals.glow[currentItem].color[0], config.visuals.glow[currentItem].color[1], config.visuals.glow[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
     ImGui::SameLine(0.0f, 5.0f);
     ImGui::Text("Color");
     ImGui::PushID(2);
@@ -268,16 +268,16 @@ void GUI::renderVisualsGlowTab() noexcept
         ImGui::OpenPopup("");
     if (ImGui::BeginPopup("")) {
         ImGui::PushID(3);
-        ImGui::ColorPicker3("", config.glow[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
+        ImGui::ColorPicker3("", config.visuals.glow[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
         ImGui::EndPopup();
     }
     ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
     ImGui::PushID(4);
-    ImGui::SliderFloat("", &config.glow[currentItem].thickness, 0.0f, 1.0f, "Thickness: %.2f");
+    ImGui::SliderFloat("", &config.visuals.glow[currentItem].thickness, 0.0f, 1.0f, "Thickness: %.2f");
     ImGui::PushID(5);
-    ImGui::SliderFloat("", &config.glow[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
+    ImGui::SliderFloat("", &config.visuals.glow[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
     ImGui::PushID(6);
-    ImGui::SliderInt("", &config.glow[currentItem].style, 0, 3, "Style: %d");
+    ImGui::SliderInt("", &config.visuals.glow[currentItem].style, 0, 3, "Style: %d");
 }
 
 void GUI::renderVisualsChamsTab() noexcept
@@ -299,11 +299,11 @@ void GUI::renderVisualsChamsTab() noexcept
         currentItem = currentCategory + 4;
     }
 
-    ImGui::Checkbox("Enabled", &config.chams[currentItem].enabled);
-    ImGui::Checkbox("Flat", &config.chams[currentItem].flat);
-    ImGui::Checkbox("Wireframe", &config.chams[currentItem].wireframe);
+    ImGui::Checkbox("Enabled", &config.visuals.chams[currentItem].enabled);
+    ImGui::Checkbox("Flat", &config.visuals.chams[currentItem].flat);
+    ImGui::Checkbox("Wireframe", &config.visuals.chams[currentItem].wireframe);
 
-    bool openPopup = ImGui::ColorButton("Color", ImColor{ config.chams[currentItem].color[0], config.chams[currentItem].color[1], config.chams[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
+    bool openPopup = ImGui::ColorButton("Color", ImColor{ config.visuals.chams[currentItem].color[0], config.visuals.chams[currentItem].color[1], config.visuals.chams[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
     ImGui::SameLine(0.0f, 5.0f);
     ImGui::Text("Color");
     ImGui::PushID(2);
@@ -311,42 +311,42 @@ void GUI::renderVisualsChamsTab() noexcept
         ImGui::OpenPopup("");
     if (ImGui::BeginPopup("")) {
         ImGui::PushID(3);
-        ImGui::ColorPicker3("", config.chams[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
+        ImGui::ColorPicker3("", config.visuals.chams[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
         ImGui::EndPopup();
     }
     ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
     ImGui::PushID(4);
-    ImGui::SliderFloat("", &config.chams[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
+    ImGui::SliderFloat("", &config.visuals.chams[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
 }
 
 void GUI::renderVisualsMiscTab() noexcept
 {
-    ImGui::Checkbox("Disable post-processing", &config.visuals.disablePostProcessing);
-    ImGui::Checkbox("Inverse ragdoll gravity", &config.visuals.inverseRagdollGravity);
-    ImGui::Checkbox("No visual recoil", &config.visuals.noVisualRecoil);
-    ImGui::Checkbox("No hands", &config.visuals.noHands);
-    ImGui::Checkbox("No sleeves", &config.visuals.noSleeves);
-    ImGui::Checkbox("No weapons", &config.visuals.noWeapons);
-    ImGui::Checkbox("No smoke", &config.visuals.noSmoke);
-    ImGui::Checkbox("No blur", &config.visuals.noBlur);
-    ImGui::Checkbox("No scope overlay", &config.visuals.noScopeOverlay);
-    ImGui::Checkbox("No grass", &config.visuals.noGrass);
-    ImGui::Checkbox("Wireframe smoke", &config.visuals.wireframeSmoke);
-    ImGui::Checkbox("Thirdperson", &config.visuals.thirdperson);
+    ImGui::Checkbox("Disable post-processing", &config.visuals.misc.disablePostProcessing);
+    ImGui::Checkbox("Inverse ragdoll gravity", &config.visuals.misc.inverseRagdollGravity);
+    ImGui::Checkbox("No visual recoil", &config.visuals.misc.noVisualRecoil);
+    ImGui::Checkbox("No hands", &config.visuals.misc.noHands);
+    ImGui::Checkbox("No sleeves", &config.visuals.misc.noSleeves);
+    ImGui::Checkbox("No weapons", &config.visuals.misc.noWeapons);
+    ImGui::Checkbox("No smoke", &config.visuals.misc.noSmoke);
+    ImGui::Checkbox("No blur", &config.visuals.misc.noBlur);
+    ImGui::Checkbox("No scope overlay", &config.visuals.misc.noScopeOverlay);
+    ImGui::Checkbox("No grass", &config.visuals.misc.noGrass);
+    ImGui::Checkbox("Wireframe smoke", &config.visuals.misc.wireframeSmoke);
+    ImGui::Checkbox("Thirdperson", &config.visuals.misc.thirdperson);
     ImGui::SameLine();
-    hotkey(config.visuals.thirdpersonKey);
+    hotkey(config.visuals.misc.thirdpersonKey);
     ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() - ImGui::GetStyle().WindowPadding.x);
     ImGui::PushID(0);
-    ImGui::SliderInt("", &config.visuals.thirdpersonDistance, 0, 1000, "Thirdperson distance: %d");
+    ImGui::SliderInt("", &config.visuals.misc.thirdpersonDistance, 0, 1000, "Thirdperson distance: %d");
     ImGui::PushID(1);
-    ImGui::SliderInt("", &config.visuals.viewmodelFov, -60, 60, "Viewmodel FOV: %d");
+    ImGui::SliderInt("", &config.visuals.misc.viewmodelFov, -60, 60, "Viewmodel FOV: %d");
     ImGui::PushID(2);
-    ImGui::SliderInt("", &config.visuals.flashReduction, 0, 100, "Flash reduction: %d%%");
+    ImGui::SliderInt("", &config.visuals.misc.flashReduction, 0, 100, "Flash reduction: %d%%");
     ImGui::PushID(3);
-    ImGui::SliderFloat("", &config.visuals.brightness, 0.0f, 1.0f, "Brightness: %.2f");
+    ImGui::SliderFloat("", &config.visuals.misc.brightness, 0.0f, 1.0f, "Brightness: %.2f");
     ImGui::PopItemWidth();
-    ImGui::Combo("Skybox", &config.visuals.skybox, "Default\0cs_baggage_skybox_\0cs_tibet\0embassy\0italy\0jungle\0nukeblank\0office\0sky_cs15_daylight01_hdr\0sky_cs15_daylight02_hdr\0sky_cs15_daylight03_hdr\0sky_cs15_daylight04_hdr\0sky_csgo_cloudy01\0sky_csgo_night_flat\0sky_csgo_night02\0sky_day02_05_hdr\0sky_day02_05\0sky_dust\0sky_l4d_rural02_ldr\0sky_venice\0vertigo_hdr\0vertigo\0vertigoblue_hdr\0vietnam");
-    ImGui::ColorEdit3("World color", config.visuals.worldColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoTooltip);
+    ImGui::Combo("Skybox", &config.visuals.misc.skybox, "Default\0cs_baggage_skybox_\0cs_tibet\0embassy\0italy\0jungle\0nukeblank\0office\0sky_cs15_daylight01_hdr\0sky_cs15_daylight02_hdr\0sky_cs15_daylight03_hdr\0sky_cs15_daylight04_hdr\0sky_csgo_cloudy01\0sky_csgo_night_flat\0sky_csgo_night02\0sky_day02_05_hdr\0sky_day02_05\0sky_dust\0sky_l4d_rural02_ldr\0sky_venice\0vertigo_hdr\0vertigo\0vertigoblue_hdr\0vietnam");
+    ImGui::ColorEdit3("World color", config.visuals.misc.worldColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoTooltip);
 }
 
 void GUI::renderKnifeChangerWindow() noexcept

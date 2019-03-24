@@ -196,7 +196,7 @@ static int __stdcall hookedDoPostScreenEffects(int param) noexcept
 
 static float __stdcall hookedGetViewModelFov() noexcept
 {
-    return hooks.clientMode.getOriginal<float(__thiscall*)(ClientMode*)>(35)(memory.clientMode) + static_cast<float>(config.visuals.viewmodelFov);
+    return hooks.clientMode.getOriginal<float(__thiscall*)(ClientMode*)>(35)(memory.clientMode) + static_cast<float>(config.visuals.misc.viewmodelFov);
 }
 
 static void __stdcall hookedDrawModelExecute(void* ctx, void* state, const ModelRenderInfo& info, matrix3x4* customBoneToWorld) noexcept
@@ -217,7 +217,7 @@ static bool __stdcall hookedSvCheatsGetBool() noexcept
 {
     static auto _this = interfaces.cvar->findVar("sv_cheats");
 
-    if (reinterpret_cast<uintptr_t>(_ReturnAddress()) == memory.cameraThink && config.visuals.thirdperson)
+    if (reinterpret_cast<uintptr_t>(_ReturnAddress()) == memory.cameraThink && config.visuals.misc.thirdperson)
         return true;
     else
         return hooks.svCheats.getOriginal<bool(__thiscall*)(void*)>(13)(_this);
@@ -225,7 +225,7 @@ static bool __stdcall hookedSvCheatsGetBool() noexcept
 
 static void __stdcall hookedPaintTraverse(unsigned int panel, bool forceRepaint, bool allowForce) noexcept
 {
-    if (!config.visuals.noScopeOverlay || interfaces.panel->getName(panel) != "HudZoom")
+    if (!config.visuals.misc.noScopeOverlay || interfaces.panel->getName(panel) != "HudZoom")
         hooks.panel.getOriginal<void(__thiscall*)(Panel*, unsigned int, bool, bool)>(41)(interfaces.panel, panel, forceRepaint, allowForce);
 
     if (interfaces.panel->getName(panel) == "MatSystemTopPanel") {

@@ -5,7 +5,7 @@
 
 void Glow::render() noexcept
 {
-    constexpr auto& glow = config.glow;
+    constexpr auto& glow = config.visuals.glow;
 
     for (int i = 0; i < memory.glowObjectManager->glowObjectDefinitions.size; i++) {
         GlowObjectDefinition& glowobject = memory.glowObjectManager->glowObjectDefinitions[i];
