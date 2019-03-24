@@ -14,9 +14,11 @@ private:
     void renderMenuBar() noexcept;
     void renderAimbotWindow() noexcept;
     void renderTriggerbotWindow() noexcept;
-    void renderGlowWindow() noexcept;
-    void renderChamsWindow() noexcept;
     void renderVisualsWindow() noexcept;
+    void renderVisualsMainTab() noexcept;
+    void renderVisualsGlowTab() noexcept;
+    void renderVisualsChamsTab() noexcept;
+    void renderVisualsMiscTab() noexcept;
     void renderKnifeChangerWindow() noexcept;
     void renderMiscWindow() noexcept;
     void renderConfigWindow() noexcept;
@@ -24,8 +26,6 @@ private:
     struct {
         bool aimbot{ false };
         bool triggerbot{ false };
-        bool glow{ false };
-        bool chams{ false };
         bool visuals{ false };
         bool knifeChanger{ false };
         bool misc{ false };

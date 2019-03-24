@@ -15,8 +15,6 @@ void GUI::render() noexcept
     renderMenuBar();
     renderAimbotWindow();
     renderTriggerbotWindow();
-    renderGlowWindow();
-    renderChamsWindow();
     renderVisualsWindow();
     renderKnifeChangerWindow();
     renderMiscWindow();
@@ -41,25 +39,24 @@ void GUI::hotkey(int& key) noexcept
 
 void GUI::renderMenuBar() noexcept
 {
-    std::vector<std::string> windows{ "Aimbot", "Triggerbot", "Glow", "Chams", "Visuals", "Knife Changer", "Misc", "Config", "Credits" };
+    std::vector<std::string> windows{ "Aimbot", "Triggerbot", "Visuals", "Knife Changer", "Misc", "Config", "Credits" };
 
     ImGuiContext& g = *GImGui;
     ImGuiStyle& style = g.Style;
 
-    ImGui::SetNextWindowSize(ImVec2(g.IO.DisplaySize.x - 40, (40 + (style.WindowPadding.y * 2))));
+    //ImGui::SetNextWindowSize(ImVec2(g.IO.DisplaySize.x - 40, (40 + (style.WindowPadding.y * 2))));
+    ImGui::SetNextWindowSize(ImVec2(0, (40 + (style.WindowPadding.y * 2))));
     ImGui::SetNextWindowPos(ImVec2(20, 20));
     ImGui::Begin("Nightmare", (bool*)true, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
     for (int i = 0; i < windows.size(); i++) {
         if ((window.aimbot && i == 0) ||
             (window.triggerbot && i == 1) ||
-            (window.glow && i == 2) ||
-            (window.chams && i == 3) ||
-            (window.visuals && i == 4) ||
-            (window.knifeChanger && i == 5) ||
-            (window.misc && i == 6) ||
-            (window.config && i == 7) ||
-            (window.credits && i == 8))
+            (window.visuals && i == 2) ||
+            (window.knifeChanger && i == 3) ||
+            (window.misc && i == 4) ||
+            (window.config && i == 5) ||
+            (window.credits && i == 6))
         {
             ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
         }
@@ -77,34 +74,29 @@ void GUI::renderMenuBar() noexcept
                     window.triggerbot = !window.triggerbot;
                     break;
                 case 2:
-                    window.glow = !window.glow;
-                    break;
-                case 3:
-                    window.chams = !window.chams;
-                    break;
-                case 4:
                     window.visuals = !window.visuals;
                     break;
-                case 5:
+                case 3:
                     window.knifeChanger = !window.knifeChanger;
                     break;
-                case 6:
+                case 4:
                     window.misc = !window.misc;
                     break;
-                case 7:
+                case 5:
                     window.config = !window.config;
                     break;
-                case 8:
+                case 6:
                     window.credits = !window.credits;
                     break;
             }
         }
         ImGui::PopStyleColor();
         
-        if (i < windows.size() - 2)
+        if (i < windows.size() - 1)
             ImGui::SameLine();
-        else
-            ImGui::SameLine(ImGui::GetWindowWidth() - (120 + style.WindowPadding.x));
+
+        if (i == windows.size() - 3)
+            ImGui::VerticalSeparator(); ImGui::SameLine();
     }
 
 }
@@ -112,7 +104,7 @@ void GUI::renderMenuBar() noexcept
 void GUI::renderAimbotWindow() noexcept
 {
     if (window.aimbot) {
-        ImGui::SetNextWindowSize({ 260.0f, 340.0f });
+        ImGui::SetNextWindowSize({ 260.0f, 0.0f });
         ImGui::Begin("Aimbot", &window.aimbot, windowFlags);
         static int currentCategory{ 0 };
         ImGui::PushItemWidth(110.0f);
@@ -191,137 +183,176 @@ void GUI::renderTriggerbotWindow() noexcept
     }
 }
 
-
-void GUI::renderGlowWindow() noexcept
-{
-    if (window.glow) {
-        ImGui::SetNextWindowSize({ 250.0f, 190.0f });
-        ImGui::Begin("Glow", &window.glow, windowFlags);
-        static int currentCategory{ 0 };
-        ImGui::PushItemWidth(110.0f);
-        ImGui::PushID(0);
-        ImGui::Combo("", &currentCategory, "Allies\0Enemies\0Planting\0Defusing\0Local player\0Weapons\0C4\0Planted C4\0Chickens\0");
-        static int currentItem{ 0 };
-        if (currentCategory <= 3) {
-            ImGui::SameLine();
-            static int currentType{ 0 };
-            ImGui::PushID(1);
-            ImGui::Combo("", &currentType, "Visible\0Occluded");
-            currentItem = currentCategory * 2 + currentType;
-        }
-        else {
-            currentItem = currentCategory + 4;
-        }
-
-        ImGui::Checkbox("Enabled", &config.glow[currentItem].enabled);
-        bool openPopup = ImGui::ColorButton("Color", ImColor{ config.glow[currentItem].color[0], config.glow[currentItem].color[1], config.glow[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
-        ImGui::SameLine(0.0f, 5.0f);
-        ImGui::Text("Color");
-        ImGui::PushID(2);
-        if (openPopup)
-            ImGui::OpenPopup("");
-        if (ImGui::BeginPopup("")) {
-            ImGui::PushID(3);
-            ImGui::ColorPicker3("", config.glow[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
-            ImGui::EndPopup();
-        }
-        ImGui::PushItemWidth(220.0f);
-        ImGui::PushID(4);
-        ImGui::SliderFloat("", &config.glow[currentItem].thickness, 0.0f, 1.0f, "Thickness: %.2f");
-        ImGui::PushID(5);
-        ImGui::SliderFloat("", &config.glow[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
-        ImGui::PushID(6);
-        ImGui::SliderInt("", &config.glow[currentItem].style, 0, 3, "Style: %d");
-        ImGui::End();
-    }
-}
-
-void GUI::renderChamsWindow() noexcept
-{
-    if (window.chams) {
-        ImGui::SetNextWindowSize({ 250.0f, 190.0f });
-        ImGui::Begin("Chams", &window.chams, windowFlags);
-        static int currentCategory{ 0 };
-        ImGui::PushItemWidth(110.0f);
-        ImGui::PushID(0);
-        ImGui::Combo("", &currentCategory, "Allies\0Enemies\0Planting\0Defusing\0Local player\0Weapons\0Hands\0");
-        static int currentItem{ 0 };
-
-        if (currentCategory <= 3) {
-            ImGui::SameLine();
-            static int currentType{ 0 };
-            ImGui::PushID(1);
-            ImGui::Combo("", &currentType, "Visible\0Occluded");
-            currentItem = currentCategory * 2 + currentType;
-        }
-        else {
-            currentItem = currentCategory + 4;
-        }
-
-        ImGui::Checkbox("Enabled", &config.chams[currentItem].enabled);
-        ImGui::Checkbox("Flat", &config.chams[currentItem].flat);
-        ImGui::Checkbox("Wireframe", &config.chams[currentItem].wireframe);
-
-        bool openPopup = ImGui::ColorButton("Color", ImColor{ config.chams[currentItem].color[0], config.chams[currentItem].color[1], config.chams[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
-        ImGui::SameLine(0.0f, 5.0f);
-        ImGui::Text("Color");
-        ImGui::PushID(2);
-        if (openPopup)
-            ImGui::OpenPopup("");
-        if (ImGui::BeginPopup("")) {
-            ImGui::PushID(3);
-            ImGui::ColorPicker3("", config.chams[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
-            ImGui::EndPopup();
-        }
-        ImGui::PushItemWidth(220.0f);
-        ImGui::PushID(4);
-        ImGui::SliderFloat("", &config.chams[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
-        ImGui::End();
-    }
-}
-
 void GUI::renderVisualsWindow() noexcept
 {
     if (window.visuals) {
-        ImGui::SetNextWindowSize({ 520.0f, 315.0f });
+        ImGui::SetNextWindowSize({ 460.0f, 280.0f });
         ImGui::Begin("Visuals", &window.visuals, windowFlags);
+
         ImGui::Columns(2, nullptr, false);
-        ImGui::SetColumnOffset(1, 210.0f);
-        ImGui::Checkbox("Disable post-processing", &config.visuals.disablePostProcessing);
-        ImGui::Checkbox("Inverse ragdoll gravity", &config.visuals.inverseRagdollGravity);
-        ImGui::Checkbox("No visual recoil", &config.visuals.noVisualRecoil);
-        ImGui::Checkbox("No hands", &config.visuals.noHands);
-        ImGui::Checkbox("No sleeves", &config.visuals.noSleeves);
-        ImGui::Checkbox("No weapons", &config.visuals.noWeapons);
-        ImGui::Checkbox("No smoke", &config.visuals.noSmoke);
-        ImGui::Checkbox("No blur", &config.visuals.noBlur);
-        ImGui::Checkbox("No scope overlay", &config.visuals.noScopeOverlay);
-        ImGui::Checkbox("No grass", &config.visuals.noGrass);
-        ImGui::Checkbox("Wireframe smoke", &config.visuals.wireframeSmoke);
+        ImGui::SetColumnOffset(1, 120 + ImGui::GetStyle().WindowPadding.y);
+
+        static int tab = 0;
+        static std::vector<std::string> tabs{ "Main", "Glow", "Chams", "Misc" };
+
+        for (int i = 0; i < tabs.size(); i++) {
+            if (tab == i)
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+            else
+                ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_Button]);
+
+            if (ImGui::Button(tabs[i].c_str(), ImVec2(120, 40)))
+                tab = i;
+
+            ImGui::PopStyleColor();
+        }
+
         ImGui::NextColumn();
-        ImGui::Checkbox("Thirdperson", &config.visuals.thirdperson);
-        ImGui::SameLine();
-        hotkey(config.visuals.thirdpersonKey);
-        ImGui::PushItemWidth(290.0f);
-        ImGui::PushID(0);
-        ImGui::SliderInt("", &config.visuals.thirdpersonDistance, 0, 1000, "Thirdperson distance: %d");
-        ImGui::PushID(1);
-        ImGui::SliderInt("", &config.visuals.viewmodelFov, -60, 60, "Viewmodel FOV: %d");
-        ImGui::PushID(2);
-        ImGui::SliderInt("", &config.visuals.flashReduction, 0, 100, "Flash reduction: %d%%");
-        ImGui::PushID(3);
-        ImGui::SliderFloat("", &config.visuals.brightness, 0.0f, 1.0f, "Brightness: %.2f");
-        ImGui::PopItemWidth();
-        ImGui::Combo("Skybox", &config.visuals.skybox, "Default\0cs_baggage_skybox_\0cs_tibet\0embassy\0italy\0jungle\0nukeblank\0office\0sky_cs15_daylight01_hdr\0sky_cs15_daylight02_hdr\0sky_cs15_daylight03_hdr\0sky_cs15_daylight04_hdr\0sky_csgo_cloudy01\0sky_csgo_night_flat\0sky_csgo_night02\0sky_day02_05_hdr\0sky_day02_05\0sky_dust\0sky_l4d_rural02_ldr\0sky_venice\0vertigo_hdr\0vertigo\0vertigoblue_hdr\0vietnam");
-        ImGui::ColorEdit3("World color", config.visuals.worldColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoTooltip);
+        switch (tab)
+        {
+        case 0:
+            ImGui::BeginChild("Main", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
+            renderVisualsMainTab();
+            ImGui::EndChild();
+            break;
+        case 1:
+            ImGui::BeginChild("Glow", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
+            renderVisualsGlowTab();
+            ImGui::EndChild();
+            break;
+        case 2:
+            ImGui::BeginChild("Chams", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
+            renderVisualsChamsTab();
+            ImGui::EndChild();
+            break;
+        case 3:
+            ImGui::BeginChild("Misc", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar);
+            renderVisualsMiscTab();
+            ImGui::EndChild();
+            break;
+        }
+
         ImGui::End();
     }
+}
+
+void GUI::renderVisualsMainTab() noexcept
+{
+    ImGui::TextDisabled("To be added: Box2D, skeleton, player info, etc.");
+}
+
+void GUI::renderVisualsGlowTab() noexcept
+{
+    static int currentCategory{ 0 };
+    ImGui::PushItemWidth((ImGui::GetContentRegionAvailWidth() / 2) - (ImGui::GetStyle().ItemSpacing.x));
+    ImGui::PushID(0);
+    ImGui::Combo("", &currentCategory, "Allies\0Enemies\0Planting\0Defusing\0Local player\0Weapons\0C4\0Planted C4\0Chickens\0");
+    static int currentItem{ 0 };
+    if (currentCategory <= 3) {
+        ImGui::SameLine();
+        static int currentType{ 0 };
+        ImGui::PushID(1);
+        ImGui::Combo("", &currentType, "Visible\0Occluded");
+        currentItem = currentCategory * 2 + currentType;
+    }
+    else {
+        currentItem = currentCategory + 4;
+    }
+
+    ImGui::Checkbox("Enabled", &config.glow[currentItem].enabled);
+    bool openPopup = ImGui::ColorButton("Color", ImColor{ config.glow[currentItem].color[0], config.glow[currentItem].color[1], config.glow[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
+    ImGui::SameLine(0.0f, 5.0f);
+    ImGui::Text("Color");
+    ImGui::PushID(2);
+    if (openPopup)
+        ImGui::OpenPopup("");
+    if (ImGui::BeginPopup("")) {
+        ImGui::PushID(3);
+        ImGui::ColorPicker3("", config.glow[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
+        ImGui::EndPopup();
+    }
+    ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
+    ImGui::PushID(4);
+    ImGui::SliderFloat("", &config.glow[currentItem].thickness, 0.0f, 1.0f, "Thickness: %.2f");
+    ImGui::PushID(5);
+    ImGui::SliderFloat("", &config.glow[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
+    ImGui::PushID(6);
+    ImGui::SliderInt("", &config.glow[currentItem].style, 0, 3, "Style: %d");
+}
+
+void GUI::renderVisualsChamsTab() noexcept
+{
+    static int currentCategory{ 0 };
+    ImGui::PushItemWidth((ImGui::GetContentRegionAvailWidth() / 2) - (ImGui::GetStyle().ItemSpacing.x));
+    ImGui::PushID(0);
+    ImGui::Combo("", &currentCategory, "Allies\0Enemies\0Planting\0Defusing\0Local player\0Weapons\0Hands\0");
+    static int currentItem{ 0 };
+
+    if (currentCategory <= 3) {
+        ImGui::SameLine();
+        static int currentType{ 0 };
+        ImGui::PushID(1);
+        ImGui::Combo("", &currentType, "Visible\0Occluded");
+        currentItem = currentCategory * 2 + currentType;
+    }
+    else {
+        currentItem = currentCategory + 4;
+    }
+
+    ImGui::Checkbox("Enabled", &config.chams[currentItem].enabled);
+    ImGui::Checkbox("Flat", &config.chams[currentItem].flat);
+    ImGui::Checkbox("Wireframe", &config.chams[currentItem].wireframe);
+
+    bool openPopup = ImGui::ColorButton("Color", ImColor{ config.chams[currentItem].color[0], config.chams[currentItem].color[1], config.chams[currentItem].color[2] }, ImGuiColorEditFlags_NoTooltip);
+    ImGui::SameLine(0.0f, 5.0f);
+    ImGui::Text("Color");
+    ImGui::PushID(2);
+    if (openPopup)
+        ImGui::OpenPopup("");
+    if (ImGui::BeginPopup("")) {
+        ImGui::PushID(3);
+        ImGui::ColorPicker3("", config.chams[currentItem].color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
+        ImGui::EndPopup();
+    }
+    ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
+    ImGui::PushID(4);
+    ImGui::SliderFloat("", &config.chams[currentItem].alpha, 0.0f, 1.0f, "Alpha: %.2f");
+}
+
+void GUI::renderVisualsMiscTab() noexcept
+{
+    ImGui::Checkbox("Disable post-processing", &config.visuals.disablePostProcessing);
+    ImGui::Checkbox("Inverse ragdoll gravity", &config.visuals.inverseRagdollGravity);
+    ImGui::Checkbox("No visual recoil", &config.visuals.noVisualRecoil);
+    ImGui::Checkbox("No hands", &config.visuals.noHands);
+    ImGui::Checkbox("No sleeves", &config.visuals.noSleeves);
+    ImGui::Checkbox("No weapons", &config.visuals.noWeapons);
+    ImGui::Checkbox("No smoke", &config.visuals.noSmoke);
+    ImGui::Checkbox("No blur", &config.visuals.noBlur);
+    ImGui::Checkbox("No scope overlay", &config.visuals.noScopeOverlay);
+    ImGui::Checkbox("No grass", &config.visuals.noGrass);
+    ImGui::Checkbox("Wireframe smoke", &config.visuals.wireframeSmoke);
+    ImGui::Checkbox("Thirdperson", &config.visuals.thirdperson);
+    ImGui::SameLine();
+    hotkey(config.visuals.thirdpersonKey);
+    ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() - ImGui::GetStyle().WindowPadding.x);
+    ImGui::PushID(0);
+    ImGui::SliderInt("", &config.visuals.thirdpersonDistance, 0, 1000, "Thirdperson distance: %d");
+    ImGui::PushID(1);
+    ImGui::SliderInt("", &config.visuals.viewmodelFov, -60, 60, "Viewmodel FOV: %d");
+    ImGui::PushID(2);
+    ImGui::SliderInt("", &config.visuals.flashReduction, 0, 100, "Flash reduction: %d%%");
+    ImGui::PushID(3);
+    ImGui::SliderFloat("", &config.visuals.brightness, 0.0f, 1.0f, "Brightness: %.2f");
+    ImGui::PopItemWidth();
+    ImGui::Combo("Skybox", &config.visuals.skybox, "Default\0cs_baggage_skybox_\0cs_tibet\0embassy\0italy\0jungle\0nukeblank\0office\0sky_cs15_daylight01_hdr\0sky_cs15_daylight02_hdr\0sky_cs15_daylight03_hdr\0sky_cs15_daylight04_hdr\0sky_csgo_cloudy01\0sky_csgo_night_flat\0sky_csgo_night02\0sky_day02_05_hdr\0sky_day02_05\0sky_dust\0sky_l4d_rural02_ldr\0sky_venice\0vertigo_hdr\0vertigo\0vertigoblue_hdr\0vietnam");
+    ImGui::ColorEdit3("World color", config.visuals.worldColor, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoTooltip);
 }
 
 void GUI::renderKnifeChangerWindow() noexcept
 {
     if (window.knifeChanger) {
-        ImGui::SetNextWindowSize({ 180.0f, 100.0f });
+        ImGui::SetNextWindowSize({ 180.0f, 0.0f });
         ImGui::Begin("Knife changer", &window.knifeChanger, windowFlags);
         ImGui::PushItemWidth(130.0f);
         ImGui::Checkbox("Enabled", &config.knifeChanger.enabled);
@@ -333,7 +364,7 @@ void GUI::renderKnifeChangerWindow() noexcept
 void GUI::renderMiscWindow() noexcept
 {
     if (window.misc) {
-        ImGui::SetNextWindowSize({ 220.0f, 340.0f });
+        ImGui::SetNextWindowSize({ 220.0f, 0.0f });
         ImGui::Begin("Misc", &window.misc, windowFlags);
         ImGui::Checkbox("Bunny hop", &config.misc.bunnyHop);
         static char buffer[16];
@@ -453,34 +484,23 @@ void GUI::renderConfigWindow() noexcept
 void GUI::renderCreditsWindow() noexcept
 {
     if (window.credits) {
-        ImGui::SetNextWindowSize({ 260.0f, 350.0f });
+        ImGui::SetNextWindowSize({ 300.0f, 350.0f });
         ImGui::Begin("Credits", &window.credits, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse);
 
-        const std::string markdown = u8R"(# Credits
-## [@Fizz3](https://github.com/Fizz3)
+        const std::string markdown = u8R"([@Fizz3](https://github.com/Fizz3)
 I put together this cheat for my own personal use and as a way to learn C++. Barely any of it is coded from scratch, almost all of the credit goes to the following people.
 
-## [@danielkrupinski](https://github.com/danielkrupinski)
-Created the project that Nightmare is forked from. I wouldn't have made this is I didn't stumble across his source which reminded my of when AimTux first game out.
+[@danielkrupinski](https://github.com/danielkrupinski)
+Created the project that Nightmare is forked from. I wouldn't have made this if I didn't stumble across his source which reminded my of when AimTux first came out.
 
-## [@luk1337](https://github.com/luk1337), [@McSwaggens](https://github.com/McSwaggens) and [Contributors](https://github.com/AimTuxOfficial/AimTux/graphs/contributors)
-Creators of the AimTux Linux cheat, which I often use as a reference when looking for features I want.
+[@luk1337](https://github.com/luk1337), [@McSwaggens](https://github.com/McSwaggens) and [Contributors](https://github.com/AimTuxOfficial/AimTux/graphs/contributors)
+Creators of the AimTux Linux cheat, which I often use as a reference.
 
-## [unknowncheats.me](https://unknowncheats.me) Community
+[unknowncheats.me](https://unknowncheats.me) Community
 Lots of useful resources and helpful people, I would have a lot less features without some of the stuff I've found here.
 )";
         ImGui::MarkdownConfig mdConfig{ NULL, NULL, NULL, { { NULL, true }, { NULL, true }, { NULL, false } } };
         ImGui::Markdown(markdown.c_str(), markdown.length(), mdConfig);
-        /*ImGui::Text("@Fizz3");
-        ImGui::Text("Nightmare fork");
-        ImGui::Separator();
-
-        ImGui::Text("@danielkrupinski");
-        ImGui::Text("The source that Nightmare is forked\nfrom (Osiris)");
-        ImGui::Separator();
-
-        ImGui::Text("unknowncheats.me Community");
-        ImGui::Text("Lots of helpful people :)");*/
 
         ImGui::End();
     }
