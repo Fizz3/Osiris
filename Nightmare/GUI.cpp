@@ -49,7 +49,7 @@ void GUI::renderMenuBar() noexcept
     ImGui::SetNextWindowPos(ImVec2(20, 20));
     ImGui::Begin("Nightmare", (bool*)true, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
-    for (int i = 0; i < windows.size(); i++) {
+    for (int i = 0; i < static_cast<int>(windows.size()); i++) {
         if ((window.aimbot && i == 0) ||
             (window.triggerbot && i == 1) ||
             (window.visuals && i == 2) ||
@@ -92,10 +92,10 @@ void GUI::renderMenuBar() noexcept
         }
         ImGui::PopStyleColor();
         
-        if (i < windows.size() - 1)
+        if (i < static_cast<int>(windows.size()) - 1)
             ImGui::SameLine();
 
-        if (i == windows.size() - 3)
+        if (i == static_cast<int>(windows.size()) - 3)
             ImGui::VerticalSeparator(); ImGui::SameLine();
     }
 
@@ -195,7 +195,7 @@ void GUI::renderVisualsWindow() noexcept
         static int tab = 0;
         static std::vector<std::string> tabs{ "Main", "Glow", "Chams", "Misc" };
 
-        for (int i = 0; i < tabs.size(); i++) {
+        for (int i = 0; i < static_cast<int>(tabs.size()); i++) {
             if (tab == i)
                 ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
             else
@@ -435,10 +435,10 @@ void GUI::renderConfigWindow() noexcept
 
         ImGui::ListBox("", &configCurrent, configItems, 5);
 
-        if (configCurrent < configItems.size()) {
-            if (configCurrent != 0) {
+        if (configCurrent < static_cast<int>(configItems.size())) {
+            if (configCurrent != -1) {
                 char buffer[16];
-                strcpy(buffer, configItems[configCurrent].c_str());
+                strcpy_s(buffer, configItems[configCurrent].c_str());
 
                 if (ImGui::InputText("##1", buffer, IM_ARRAYSIZE(buffer), ImGuiInputTextFlags_EnterReturnsTrue)) {
                     char* nameBuffer = buffer;
@@ -463,7 +463,7 @@ void GUI::renderConfigWindow() noexcept
 
         ImGui::PushItemWidth(100.0f);
 
-        if (configCurrent >= configItems.size()) {
+        if (configCurrent >= static_cast<int>(configItems.size())) {
             ImGui::ButtonDisabled("Load Selected");
             ImGui::ButtonDisabled("Save Selected");
             if (ImGui::Button("New Config", { 100.0f, 25.0f })) {
