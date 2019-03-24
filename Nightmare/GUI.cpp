@@ -154,9 +154,24 @@ void GUI::renderAimbotWindow() noexcept
         ImGui::Checkbox("Scoped only", &config.aimbot.weapons[currentWeapon].scopedOnly);
         ImGui::Checkbox("Auto shot", &config.aimbot.weapons[currentWeapon].autoShot);
         ImGui::Combo("Bone", &config.aimbot.weapons[currentWeapon].bone, "Head\0Neck\0Sternum\0Chest\0Stomach\0Pelvis");
-        ImGui::PushItemWidth(240.0f);
+
+        if (ImGui::Button("-", ImVec2(20, 0)))
+            config.aimbot.weapons[currentWeapon].fov -= 0.05f;
+
+        ImGui::SameLine();
+
         ImGui::PushID(5);
+        ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() - 20 - ImGui::GetStyle().ItemSpacing.x);
         ImGui::SliderFloat("", &config.aimbot.weapons[currentWeapon].fov, 0.0f, 255.0f, "Fov: %.2f");
+        ImGui::PopItemWidth();
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("+", ImVec2(20, 0)))
+            config.aimbot.weapons[currentWeapon].fov += 0.05f;
+
+        ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
+
         ImGui::PushID(6);
         ImGui::SliderFloat("", &config.aimbot.weapons[currentWeapon].smooth, 1.0f, 100.0f, "Smooth: %.2f");
         ImGui::PushID(7);
