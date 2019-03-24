@@ -59,7 +59,20 @@ public:
 
     struct {
         struct {
+            bool enabled{ false };
+            bool enemies{ false };
+            bool box{ false };
+            float enemyColor[3]{ 1.0f, 1.0f, 1.0f };
+            bool allies{ false };
+            float allyColor[3]{ 1.0f, 1.0f, 1.0f };
+            bool name{ false };
+            bool health{ false };
 
+            template <class Archive>
+            constexpr void serialize(Archive& archive) noexcept
+            {
+                archive(enabled, enemies, enemyColor, allies, allyColor, box, name, health);
+            }
         } main;
 
         struct {

@@ -84,6 +84,9 @@
     <ClCompile Include="Hacks\Visuals.cpp">
       <Filter>Hacks</Filter>
     </ClCompile>
+    <ClCompile Include="Hacks\Walls.cpp">
+      <Filter>Hacks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h">
@@ -261,6 +264,12 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="SDK\GameUI.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Hacks\Walls.h">
+      <Filter>Hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\DebugOverlay.h">
       <Filter>SDK</Filter>
     </ClInclude>
   </ItemGroup>

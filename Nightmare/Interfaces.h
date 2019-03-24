@@ -6,6 +6,7 @@
 
 #include "SDK/Client.h"
 #include "SDK/Cvar.h"
+#include "SDK/DebugOverlay.h"
 #include "SDK/Engine.h"
 #include "SDK/EngineTrace.h"
 #include "SDK/EntityList.h"
@@ -24,6 +25,7 @@ public:
 
     Client* client;
     Cvar* cvar;
+    DebugOverlay* debugOverlay;
     Engine* engine;
     EngineTrace* engineTrace;
     EntityList* entityList;

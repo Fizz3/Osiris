@@ -8,6 +8,7 @@ Interfaces::Interfaces() noexcept
     try {
         client = find<Client>("client_panorama", "VClient018");
         cvar = find<Cvar>("vstdlib", "VEngineCvar007");
+        debugOverlay = find<DebugOverlay>("engine", "VDebugOverlay004");
         engine = find<Engine>("engine", "VEngineClient014");
         engineTrace = find<EngineTrace>("engine", "EngineTraceClient004");
         entityList = find<EntityList>("client_panorama", "VClientEntityList003");

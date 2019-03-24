@@ -97,6 +97,11 @@ public:
         return callVirtualFunction<bool(__thiscall*)(void*)>(this + 8, 9)(this + 8);
     }
 
+    constexpr int getIndex()
+    {
+        return callVirtualFunction<int(__thiscall*)(void*)>(this + 8, 10)(this + 8);
+    }
+
     constexpr bool isWeapon() noexcept
     {
         return callVirtualFunction<bool(__thiscall*)(void*)>(this, 161)(this);
@@ -120,5 +125,22 @@ public:
     constexpr float getInaccuracy() noexcept
     {
         return callVirtualFunction<float(__thiscall*)(void*)>(this, 471)(this);
+    }
+
+    constexpr PVOID getCollideable()
+    {
+        return callVirtualFunction<void*(__thiscall*)(PVOID)>(this, 3)(this);
+    }
+
+    constexpr Vector getCollideableMins()
+    {
+        auto collideable = getCollideable();
+        return callVirtualFunction<Vector&(__thiscall*)(PVOID)>(collideable, 1)(collideable);
+    }
+
+    constexpr Vector getCollideableMaxs()
+    {
+        auto collideable = getCollideable();
+        return callVirtualFunction<Vector&(__thiscall*)(PVOID)>(collideable, 2)(collideable);
     }
 };

@@ -25,6 +25,7 @@
     <ClCompile Include="Hacks\Glow.cpp" />
     <ClCompile Include="Hacks\Triggerbot.cpp" />
     <ClCompile Include="Hacks\Visuals.cpp" />
+    <ClCompile Include="Hacks\Walls.cpp" />
     <ClCompile Include="Netvars.cpp" />
     <ClCompile Include="Nightmare.cpp" />
     <ClCompile Include="GUI.cpp" />
@@ -58,9 +59,11 @@
     <ClInclude Include="Hacks\Misc.h" />
     <ClInclude Include="Hacks\Triggerbot.h" />
     <ClInclude Include="Hacks\Visuals.h" />
+    <ClInclude Include="Hacks\Walls.h" />
     <ClInclude Include="imgui\imgui_markdown.h" />
     <ClInclude Include="Netvars.h" />
     <ClInclude Include="SDK\Client.h" />
+    <ClInclude Include="SDK\DebugOverlay.h" />
     <ClInclude Include="SDK\EngineTrace.h" />
     <ClInclude Include="SDK\Entity.h" />
     <ClInclude Include="SDK\ClientClass.h" />

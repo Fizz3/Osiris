@@ -238,7 +238,31 @@ void GUI::renderVisualsWindow() noexcept
 
 void GUI::renderVisualsMainTab() noexcept
 {
-    ImGui::TextDisabled("To be added: Box2D, skeleton, player info, etc.");
+    ImGui::Checkbox("Enabled", &config.visuals.main.enabled);
+    ImGui::Checkbox("Box2D", &config.visuals.main.box);
+
+    ImGui::Checkbox("Enemies", &config.visuals.main.enemies);
+    ImGui::SameLine(ImGui::GetContentRegionAvailWidth() - 180);
+    bool openPopupEnemies = ImGui::ColorButton("Color", ImColor{ config.visuals.main.enemyColor[0], config.visuals.main.enemyColor[1], config.visuals.main.enemyColor[2] }, ImGuiColorEditFlags_NoTooltip);
+    if (openPopupEnemies)
+        ImGui::OpenPopup("##1");
+    if (ImGui::BeginPopup("##1")) {
+        ImGui::ColorPicker3("##2", config.visuals.main.enemyColor, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
+        ImGui::EndPopup();
+    }
+
+    ImGui::Checkbox("Teammates", &config.visuals.main.allies);
+    ImGui::SameLine(ImGui::GetContentRegionAvailWidth() - 180);
+    bool openPopupTeam = ImGui::ColorButton("Color2", ImColor{ config.visuals.main.allyColor[0], config.visuals.main.allyColor[1], config.visuals.main.allyColor[2] }, ImGuiColorEditFlags_NoTooltip);
+    if (openPopupTeam)
+        ImGui::OpenPopup("##3");
+    if (ImGui::BeginPopup("##3")) {
+        ImGui::ColorPicker3("##4", config.visuals.main.allyColor, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_NoSidePreview);
+        ImGui::EndPopup();
+    }
+
+    ImGui::Checkbox("Name", &config.visuals.main.name);
+    ImGui::Checkbox("Health", &config.visuals.main.health);
 }
 
 void GUI::renderVisualsGlowTab() noexcept

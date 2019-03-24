@@ -12,6 +12,7 @@
 #include "Hacks/Misc.h"
 #include "Hacks/Aimbot.h"
 #include "Hacks/Visuals.h"
+#include "Hacks/Walls.h"
 #include "Hooks.h"
 #include "Interfaces.h"
 #include "Memory.h"
@@ -231,6 +232,7 @@ static void __stdcall hookedPaintTraverse(unsigned int panel, bool forceRepaint,
     if (interfaces.panel->getName(panel) == "MatSystemTopPanel") {
         Misc::watermark();
         Misc::spectatorList();
+        Walls::draw();
     }
 }
 
