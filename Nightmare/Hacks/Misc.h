@@ -12,6 +12,7 @@ namespace Misc {
     void spectatorList() noexcept;
     void sniperCrosshair() noexcept;
     void recoilCrosshair() noexcept;
+    void fovCrosshair() noexcept;
 
     constexpr void removeCrouchCooldown(UserCmd* cmd) noexcept
     {

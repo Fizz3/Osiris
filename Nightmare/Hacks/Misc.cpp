@@ -114,3 +114,40 @@ void Misc::recoilCrosshair() noexcept
     static auto recoilCrosshair = interfaces.cvar->findVar("cl_crosshair_recoil");
     recoilCrosshair->setValue(config.misc.recoilCrosshair ? 1 : 0);
 }
+
+void Misc::fovCrosshair() noexcept
+{
+    if (config.misc.fovCrosshair && interfaces.engine->isInGame()) {
+        const auto localPlayer = interfaces.entityList->getEntity(interfaces.engine->getLocalPlayer());
+
+        if (!localPlayer->isAlive())
+            return;
+
+        const auto activeWeapon = interfaces.entityList->getEntityFromHandle(localPlayer->getProperty<int>("m_hActiveWeapon"));
+        if (!activeWeapon || !activeWeapon->getProperty<int>("m_iClip1"))
+            return;
+
+        auto weaponIndex = getWeaponIndex(activeWeapon->getProperty<WeaponId>("m_iItemDefinitionIndex"));
+        if (!weaponIndex)
+            return;
+
+        if (!config.aimbot.weapons[weaponIndex].enabled)
+            weaponIndex = 0;
+
+        const auto[width, height] = interfaces.surface->getScreenSize();
+
+        float radius = (config.aimbot.weapons[weaponIndex].fov / 90 * width) / 2;
+
+        interfaces.surface->setTextColor(255, 255, 255, 255);
+        interfaces.surface->setTextPosition(2, 2);
+        interfaces.surface->printText(std::to_string(radius));
+
+        interfaces.surface->setDrawColor(255, 0, 0, 255);
+        interfaces.surface->drawOutlinedCircle(
+            (width / 2),
+            (height / 2),
+            (int)radius,
+            (int)radius
+        );
+    }
+}

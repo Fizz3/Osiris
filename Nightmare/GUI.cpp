@@ -419,6 +419,7 @@ void GUI::renderMiscWindow() noexcept
         ImGui::Checkbox("Fast duck", &config.misc.fastDuck);
         ImGui::Checkbox("Sniper crosshair", &config.misc.sniperCrosshair);
         ImGui::Checkbox("Recoil crosshair", &config.misc.recoilCrosshair);
+        ImGui::Checkbox("FOV crosshair", &config.misc.fovCrosshair);
         ImGui::Checkbox("Auto pistol", &config.misc.autoPistol);
         ImGui::Checkbox("Auto accept", &config.misc.autoAccept);
         ImGui::Checkbox("Radar hack", &config.misc.radarHack);

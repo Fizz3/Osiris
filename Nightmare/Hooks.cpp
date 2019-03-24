@@ -232,6 +232,7 @@ static void __stdcall hookedPaintTraverse(unsigned int panel, bool forceRepaint,
     if (interfaces.panel->getName(panel) == "MatSystemTopPanel") {
         Misc::watermark();
         Misc::spectatorList();
+        Misc::fovCrosshair();
         Walls::draw();
     }
 }
